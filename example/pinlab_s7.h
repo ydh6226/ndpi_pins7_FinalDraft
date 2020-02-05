@@ -531,7 +531,22 @@ void bit_analysis(uint8_t *s7packet,unsigned long packet_len,uint16_t id, uint16
             fprintf(fp, "No data tree.\n");
             break;
         default:
-            fprintf(fp, "Undefined s7 ID/Index\n");
+            //printf data hex code
+            {
+                fprintf(fp, "<Data hex code>\n");
+                for (int i = 0; i < packet_len; i++)
+                {
+                    fprintf(fp, "%.2x ", *(packet_checked + i));
+                    if (i != 0)
+                    {
+                        if (i % 16 == 15)
+                            fprintf(fp, "\n");
+                        else if (i % 8 == 7)
+                            fprintf(fp, "    ");
+                    }
+                }
+                fprintf(fp, "\n");
+            }
             break;
     }
 

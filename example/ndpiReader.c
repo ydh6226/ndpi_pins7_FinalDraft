@@ -2966,60 +2966,60 @@ static void ndpi_process_packet(u_char *args,
       if(packet_checked[payload_offset+24]==0x00&&packet_checked[payload_offset+22]!=0x83){
         if((int)(packet_checked[payload_offset + 3])<26){
           if(b_counter==1){
-        	    fp=fopen("/home/pin/Desktop/BlackList.txt", "w");
+        	    fp=fopen("/home/dnp/Desktop/BlackList.txt", "w");
               b_counter++;
            }
            else if(b_counter!=1)
-             fp=fopen("/home/pin/Desktop/BlackList.txt", "a");
+             fp=fopen("/home/dnp/Desktop/BlackList.txt", "a");
        }
        else{
           if(packet_checked[payload_offset+25]!=0xff){
           //black
            if(b_counter==1){
-        	    fp=fopen("/home/pin/Desktop/BlackList.txt", "w");
+        	    fp=fopen("/home/dnp/Desktop/BlackList.txt", "w");
               b_counter++;
            }
            else if(b_counter!=1)
-             fp=fopen("/home/pin/Desktop/BlackList.txt", "a");
+             fp=fopen("/home/dnp/Desktop/BlackList.txt", "a");
          }
           else{
            //white
            if(w_counter==1){
-       	    fp=fopen("/home/pin/Desktop/WhiteList.txt", "w");
+       	    fp=fopen("/home/dnp/Desktop/WhiteList.txt", "w");
              w_counter++;
             }
            else if(w_counter!=1)
-             fp=fopen("/home/pin/Desktop/WhiteList.txt", "a");
+             fp=fopen("/home/dnp/Desktop/WhiteList.txt", "a");
           }
         }
       }
       else{
         if((int)(packet_checked[payload_offset + 3])<26){
           if(b_counter==1){
-        	    fp=fopen("/home/pin/Desktop/BlackList.txt", "w");
+        	    fp=fopen("/home/dnp/Desktop/BlackList.txt", "w");
               b_counter++;
            }
            else if(b_counter!=1)
-             fp=fopen("/home/pin/Desktop/BlackList.txt", "a");
+             fp=fopen("/home/dnp/Desktop/BlackList.txt", "a");
        }
        else{
           if(packet_checked[payload_offset+29]!=0xff){
           //black
            if(b_counter==1){
-        	    fp=fopen("/home/pin/Desktop/BlackList.txt", "w");
+        	    fp=fopen("/home/dnp/Desktop/BlackList.txt", "w");
               b_counter++;
            }
            else if(b_counter!=1)
-             fp=fopen("/home/pin/Desktop/BlackList.txt", "a");
+             fp=fopen("/home/dnp/Desktop/BlackList.txt", "a");
          }
           else{
            //white
            if(w_counter==1){
-       	    fp=fopen("/home/pin/Desktop/WhiteList.txt", "w");
+       	    fp=fopen("/home/dnp/Desktop/WhiteList.txt", "w");
              w_counter++;
             }
            else if(w_counter!=1)
-             fp=fopen("/home/pin/Desktop/WhiteList.txt", "a");
+             fp=fopen("/home/dnp/Desktop/WhiteList.txt", "a");
           }
         }
       }
@@ -3146,6 +3146,7 @@ static void ndpi_process_packet(u_char *args,
           fprintf(fp, "Length: 0x%.2x%.2x\n", packet_checked[payload_offset+23],packet_checked[payload_offset+24]);
           fprintf(fp, "DB number: 0x%.2x%.2x\n", packet_checked[payload_offset+25],packet_checked[payload_offset+26]);
           fprintf(fp, "Area: 0x%.2x\n", packet_checked[payload_offset+27]);
+
         }
         else if (packet_checked[payload_offset+17]==0x05){
           fprintf(fp, "Function: 0x%.2x (Write Var)\n", packet_checked[payload_offset+17]);
@@ -3157,6 +3158,20 @@ static void ndpi_process_packet(u_char *args,
           fprintf(fp, "Length: 0x%.2x%.2x\n", packet_checked[payload_offset+23],packet_checked[payload_offset+24]);
           fprintf(fp, "DB number: 0x%.2x%.2x\n", packet_checked[payload_offset+25],packet_checked[payload_offset+26]);
           fprintf(fp, "Area: 0x%.2x\n", packet_checked[payload_offset+27]);
+
+          fprintf(fp, "<Data hex code>\n");
+                for (int i = param_offset+14; i < header->caplen; i++)
+                {
+                    fprintf(fp, "%.2x ", *(packet_checked + i));
+                    if (i != 0)
+                    {
+                        if (i % 16 == 15)
+                            fprintf(fp, "\n");
+                        else if (i % 8 == 7)
+                            fprintf(fp, "    ");
+                    }
+                }
+                fprintf(fp, "\n");
         }
         else{
           fprintf(fp, "Function: 0x%.2x\n ", packet_checked[payload_offset+17]);
@@ -3189,10 +3204,38 @@ static void ndpi_process_packet(u_char *args,
         else if(packet_checked[payload_offset+19]==0x04){
           fprintf(fp, "Function: 0x%.2x (Read Var)\n",packet_checked[payload_offset+19] );
           fprintf(fp, "Item count: 0x%.2x\n", packet_checked[payload_offset+20]);
+
+          fprintf(fp, "<Data hex code>\n");
+                for (int i = param_offset+4; i < header->caplen; i++)
+                {
+                    fprintf(fp, "%.2x ", *(packet_checked + i));
+                    if (i != 0)
+                    {
+                        if (i % 16 == 15)
+                            fprintf(fp, "\n");
+                        else if (i % 8 == 7)
+                            fprintf(fp, "    ");
+                    }
+                }
+                fprintf(fp, "\n");
         }
         else if(packet_checked[payload_offset+19]==0x05){
           fprintf(fp, "Function: 0x%.2x (Write Var)\n",packet_checked[payload_offset+19] );
           fprintf(fp, "Item count: 0x%.2x\n", packet_checked[payload_offset+20]);
+
+          fprintf(fp, "<Data hex code>\n");
+                for (int i = param_offset+4; i < header->caplen; i++)
+                {
+                    fprintf(fp, "%.2x ", *(packet_checked + i));
+                    if (i != 0)
+                    {
+                        if (i % 16 == 15)
+                            fprintf(fp, "\n");
+                        else if (i % 8 == 7)
+                            fprintf(fp, "    ");
+                    }
+                }
+                fprintf(fp, "\n");
         }
         else if(packet_checked[payload_offset+19]==0x1a){
           fprintf(fp, "Function: 0x%.2x (Request Download)\n",packet_checked[payload_offset+19] );
