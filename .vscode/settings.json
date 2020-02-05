@@ -1,0 +1,27 @@
+{
+    "C_Cpp.default.includePath": [
+        "/usr/include",
+        "/usr/local/include",
+        "/home/randomist/projects/nDPI/src/include",
+        "/home/randomist/projects/nDPI/src/lib/third_party/include",
+        "${workspaceRoot}"
+    ],
+    "C_Cpp.default.browse.path": [
+        "/usr/include",
+        "/usr/local/include",
+        "/home/randomist/projects/nDPI/src/include",
+        "/home/randomist/projects/nDPI/src/lib/third_party/include",
+        "${workspaceRoot}"
+    ],
+    "C_Cpp.default.cppStandard": "c++11",
+    "C_Cpp.default.cStandard": "c11",
+    "C_Cpp.default.intelliSenseMode": "gcc-x64",
+    "gulp.autoDetect": "off",
+    "grunt.autoDetect": "off",
+    "jake.autoDetect": "off",
+    "npm.autoDetect": "off",
+    "files.associations": {
+        "ndpi_protocol_ids.h": "c",
+        "ahocorasick.h": "c"
+    }
+}
