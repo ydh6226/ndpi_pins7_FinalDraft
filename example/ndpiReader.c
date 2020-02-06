@@ -3479,6 +3479,22 @@ static void ndpi_process_packet(u_char *args,
               }else{
             //other Response function
           }
+        }else if (packet_checked[payload_offset + tpkt_offset + cotp_offset + s7_header_offset + 4] == 0x11){
+            //find Userdata Request message
+            if (((packet_checked[payload_offset + tpkt_offset + cotp_offset + s7_header_offset + 5] & 0x0f) ==
+                 0x04) &&
+                (packet_checked[payload_offset + tpkt_offset + cotp_offset + s7_header_offset + 6] == 0x01)){
+
+                s7data_offset=payload_offset + tpkt_offset + cotp_offset + s7_header_offset+8;
+                s7id = (packet_checked[s7data_offset + 4] << 8);
+                s7id += packet_checked[s7data_offset + 5];
+                s7index = (packet_checked[s7data_offset + 6] << 8);
+                s7index += packet_checked[s7data_offset + 7];
+
+                fprintf(fp, "\n<Bit_analysis>\n");
+                fprintf(fp, "ID = 0x%.4x, Index = 0x%.4x\n\n", s7id, s7index);
+            }
+
         }
 
       }
